@@ -24,6 +24,8 @@ public class PlayerMovement : MonoBehaviour
     private float torchTimer = 5f;
     private float coolDownTimer = 5f;
     private bool coolDownCheck = false;
+
+    private float tutucu;
     
     private void Awake()
     {
@@ -55,7 +57,8 @@ public class PlayerMovement : MonoBehaviour
             if (torch.gameObject.activeInHierarchy == true)
             {
                 torchTimer -= Time.deltaTime;
-                // Debug.Log("IŞIK AÇIK" + (int)torchTimer);
+                tutucu = torchTimer;
+                Debug.Log("IŞIK AÇIK " + torchTimer);
             }
         }
         
@@ -67,7 +70,7 @@ public class PlayerMovement : MonoBehaviour
             if (coolDownCheck == true && coolDownTimer >= 0)
             {
                 coolDownTimer -= Time.deltaTime;
-                // Debug.Log("COOLDOWN" + (int)coolDownTimer);
+                Debug.Log("COOLDOWN " + coolDownTimer);
             }
 
             if (coolDownTimer < 0)
@@ -80,9 +83,8 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.Q) && torch.gameObject.activeInHierarchy == true)
         {
             torch.gameObject.SetActive(false);
-            torchTimer = 5f;
+            torchTimer = tutucu;
         }
-
 
         #region  IŞIK RENGİ
         
@@ -109,8 +111,24 @@ public class PlayerMovement : MonoBehaviour
                 //other.gameObject.GetComponent<Transform>().localScale = new Vector3(20f, 20f, 20f);
             }
         }
+
+        if (other.gameObject.name == "Pil")
+        {
+            Debug.Log("Pili Almak İçin E Tuşuna Bas");
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                Debug.Log("PİL ALDIN +60 SANİYE IŞIK SÜRESİ");
+                AddBattery();
+                Destroy(other.gameObject);
+            }
+        }
     }
 
+    private void AddBattery()
+    {
+        torchTimer += 20f;
+    }
+    
     private void Jumping()
     {
         if (Input.GetButtonDown("Jump") && doubleJumpCount == 0)
