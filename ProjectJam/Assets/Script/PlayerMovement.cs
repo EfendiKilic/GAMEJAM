@@ -37,6 +37,7 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         torch.gameObject.SetActive(false);
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void Update()
